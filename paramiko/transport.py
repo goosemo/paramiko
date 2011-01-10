@@ -52,6 +52,7 @@ from paramiko.ssh_exception import SSHException, BadAuthenticationType, ChannelE
 #     http://nitace.bsd.uchicago.edu:8080/hashtar
 from Crypto.Cipher import Blowfish, AES, DES3, ARC4
 from Crypto.Hash import SHA, MD5
+from Crypto.Random import atfork
 try:
     from Crypto.Util import Counter
 except ImportError:
@@ -450,6 +451,7 @@ class Transport (threading.Thread):
         # synchronous, wait for a result
         self.completion_event = event = threading.Event()
         self.start()
+        atfork()
         while True:
             event.wait(0.1)
             if not self.active:
