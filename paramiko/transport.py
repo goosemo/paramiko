@@ -52,7 +52,7 @@ from paramiko.ssh_exception import SSHException, BadAuthenticationType, ChannelE
 #     http://nitace.bsd.uchicago.edu:8080/hashtar
 from Crypto.Cipher import Blowfish, AES, DES3, ARC4
 from Crypto.Hash import SHA, MD5
-from Crypto.Random import atfork
+from Crypto.Random import atfork as crypto_atfork
 try:
     from Crypto.Util import Counter
 except ImportError:
@@ -395,6 +395,7 @@ class Transport (threading.Thread):
 
         @since: 1.5.3
         """
+        crypto_atfork()
         self.sock.close()
         self.close()
 
