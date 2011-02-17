@@ -395,7 +395,6 @@ class Transport (threading.Thread):
 
         @since: 1.5.3
         """
-        crypto_atfork()
         self.sock.close()
         self.close()
 
@@ -452,7 +451,7 @@ class Transport (threading.Thread):
         # synchronous, wait for a result
         self.completion_event = event = threading.Event()
         self.start()
-        atfork()
+        crypto_atfork()
         while True:
             event.wait(0.1)
             if not self.active:
@@ -1601,6 +1600,7 @@ class Transport (threading.Thread):
             finally:
                 self.lock.release()
         self.sock.close()
+        crypto_atfork()
 
 
     ###  protocol stages
