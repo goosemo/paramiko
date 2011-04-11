@@ -1505,6 +1505,8 @@ class Transport (threading.Thread):
         # indefinitely, creating a GC cycle and not letting Transport ever be
         # GC'd. it's a bug in Thread.)
 
+        crypto_atfork()
+
         # active=True occurs before the thread is launched, to avoid a race
         _active_threads.append(self)
         if self.server_mode:
@@ -1600,7 +1602,6 @@ class Transport (threading.Thread):
             finally:
                 self.lock.release()
         self.sock.close()
-        crypto_atfork()
 
 
     ###  protocol stages
